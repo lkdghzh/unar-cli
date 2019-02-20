@@ -37,8 +37,8 @@ unar init [projectName]
         {
             "type": "node",
             "request": "launch",
-            "name": "scaffold",
-            "program": "${workspaceFolder}/bin/scaffold",
+            "name": "unar",
+            "program": "${workspaceFolder}/bin/unar",
             "args":["init"]//,projectName
         }
     ]
