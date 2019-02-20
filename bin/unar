@@ -1,0 +1,43 @@
+#!/usr/bin/env node
+'use strict';
+
+const cli = require('commander');
+const inquirer = require('inquirer');
+const chalk = require('chalk');
+const inquireOptions = require('../lib/inquirerOptions');
+const generate = require('../lib/generate');
+
+cli
+  .on('--help', printHelp)
+  .parse(process.argv);
+
+
+if (!cli.args.length) {
+  cli.help();
+} else {
+  const [command, projectName] = cli.args
+  if (command === 'init') {
+    if (projectName) {
+      generate({ projectName }).then(afterGenerate)
+    }
+    else {
+      inquirer.prompt(inquireOptions)
+        .then(answers => {
+          generate(answers).then(afterGenerate)
+        });
+    }
+  }
+}
+
+
+function printHelp() {
+  console.log('  Commands:');
+  console.log();
+  console.log('    init           Creates a new application');
+  console.log();
+  console.log('  All commands can be run with -h (or --help) for more information.')
+}
+
+function afterGenerate(isSuccess) {
+  isSuccess && console.log(chalk.green('project init success!'))
+}
